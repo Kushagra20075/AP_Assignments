@@ -64,9 +64,18 @@ class Hospital {
         if (vac == "" || vac == slot.getVacc()) {
             if (slot.getDay() >= minday && slot.getQuantity() > 0) {
                 slot.reducer();
+                if(slot.getQuantity()<=0){
+                    slots.remove(slot);
+                }
                 System.out.println(name + " vaccinated with " + slot.getVacc());
                 return slot.getnextday();
             }
+            else {
+                System.out.println("Cannot take another dose before :" + minday);
+            }
+        }
+        else{
+            System.out.println("Different Vaccine Dose Already Taken");
         }
         return -1;
     }
@@ -79,6 +88,13 @@ class Hospital {
             }
         }
         return false;
+    }
+
+    public void allslots() {
+        for(int i=0;i<slots.size();i++){
+            Slots slot = slots.get(i);
+            System.out.println("Day :" + slot.getDay() + " , Available Quantity :" + slot.getQuantity() + " , Vaccine :" + slot.getVacc());
+        }
     }
 }
 
@@ -184,6 +200,24 @@ class Hospital {
         public int getDoses() {
             return this.doses;
         }
+
+        public void getstatus() {
+            if(this.status=="REGISTERED"){
+                System.out.println("Citizen" + this.status);
+            }
+            else if(this.status=="FULLY VACCINATED") {
+                System.out.println(this.status);
+                System.out.println("Vaccine given:" + this.vac);
+                System.out.println("Number of doses given :" + this.doses);
+            }
+            else{
+                System.out.println(this.status);
+                System.out.println("Vaccine given:" + this.vac);
+                System.out.println("Number of doses given :" + this.doses);
+                System.out.println("Next Dose Due Date :" + this.day);
+            }
+        }
+
     }
 
     public class COWIN {
@@ -288,24 +322,43 @@ class Hospital {
         }
 
         void select_slot(long id, int index, long aadhar) {
-            Hospital hos = hospital.get(id);
-            Citizen cit = citizen.get(aadhar);
-            String vac = cit.getVac();
-            int minday = cit.getDay();
-            String name = cit.getName();
-            int newday = hos.selectslot(name ,vac, minday, index);
-            if(newday==-1){
-                System.out.println("Invalid slot Selected");
-                return;
-            }
-            else{
-                int doses = cit.getDoses() + 1;
-                String vaccine = hos.getName();
-                String status = this.check(doses,vaccine);
-                if(status=="FULLY VACCINATED"){
-                    newday = Integer.MAX_VALUE;
+            if (hospital.containsKey(id)){
+                Hospital hos = hospital.get(id);
+                Citizen cit = citizen.get(aadhar);
+                String vac = cit.getVac();
+                int minday = cit.getDay();
+                String name = cit.getName();
+                int newday = hos.selectslot(name ,vac, minday, index);
+                if(newday==-1){
+                    System.out.println("Invalid slot Selected");
+                    return;
                 }
-                cit.setter(vaccine,newday,status);
+                else{
+                    int doses = cit.getDoses() + 1;
+                    String vaccine = hos.getName();
+                    String status = this.check(doses,vaccine);
+                    if(status=="FULLY VACCINATED"){
+                        newday = Integer.MAX_VALUE;
+                    }
+                    cit.setter(vaccine,newday,status);
+                }
+            }
+            else {
+                System.out.println("Hospital With This ID Doesn't exist");
+            }
+        }
+
+        void allslots(int id){
+            if (hospital.containsKey(id)) {
+                Hospital hos = hospital.get(id);
+                hos.allslots();
+            }
+        }
+
+        void checkstatus(long aadhar){
+            if(citizen.containsKey(aadhar)){
+                Citizen cit = citizen.get(aadhar);
+                cit.getstatus();
             }
         }
 
