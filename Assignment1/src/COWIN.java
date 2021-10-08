@@ -48,7 +48,7 @@ class Hospital {
         int flag =-1;
         for (int i = 0; i < slots.size(); i++) {
             Slots slot = slots.get(i);
-            if (vac == "" || vac == slot.getVacc()) {
+            if (vac.length()==0 || vac.equals(slot.getVacc())) {
                 if (slot.getDay() >= minday && slot.getQuantity() > 0) {
                     flag = 1;
                     System.out.println(i + "->" + ", Day :" + slot.getDay() + " , Available Quantity :" + slot.getQuantity() + " , Vaccine :" + slot.getVacc());
@@ -65,7 +65,7 @@ class Hospital {
 
     public int selectslot(String name, String vac, int minday, int index) {
         Slots slot = slots.get(index);
-        if (vac == "" || vac == slot.getVacc()) {
+        if (vac.length()==0 || vac.equals(slot.getVacc())) {
             if (slot.getDay() >= minday && slot.getQuantity() > 0) {
                 slot.reducer();
                 if(slot.getQuantity()<=0){
@@ -87,7 +87,7 @@ class Hospital {
     public boolean checkvacc(String vacname) {
         for (int i = 0; i < slots.size(); i++) {
             Slots slot = slots.get(i);
-            if(vacname==slot.getVacc()){
+            if(vacname.equals(slot.getVacc())){
                 return true;
             }
         }
@@ -207,7 +207,7 @@ class Citizen {
 
     public void getstatus() {
         if(this.status=="REGISTERED"){
-            System.out.println("Citizen" + this.status);
+            System.out.println("Citizen " + this.status);
         }
         else if(this.status=="FULLY VACCINATED") {
             System.out.println(this.status);
@@ -249,6 +249,14 @@ public class COWIN {
         hospital = new HashMap<Integer, Hospital>();
         citizen = new HashMap<String, Citizen>();
         vaccine = new HashMap<Integer, Vaccine>();
+    }
+
+    public void vaccineprinter() {
+        for(int i=0; vaccine.containsKey(i);i++){
+            Vaccine vac = vaccine.get(i);
+            System.out.println(i + ". " + vac.getName());
+        }
+        return;
     }
 
     void add_Vaccine(String name, int doses, int gap) {
@@ -321,7 +329,7 @@ public class COWIN {
             Hospital hos = hospital.get(id);
             if(citizen.containsKey(aadhar)){
                 Citizen cit = citizen.get(aadhar);
-                if(vac == "") {
+                if(vac.length()==0) {
                     vac = cit.getVac();
                 }
                 int minday = cit.getDay();
@@ -338,6 +346,7 @@ public class COWIN {
             String vac = cit.getVac();
             int minday = cit.getDay();
             String name = cit.getName();
+            String vaccine = hos.getvacc(index);
             int newday = hos.selectslot(name ,vac, minday, index);
             if(newday==-1){
                 System.out.println("Invalid slot Selected");
@@ -345,7 +354,6 @@ public class COWIN {
             }
             else{
                 int doses = cit.getDoses() + 1;
-                String vaccine = hos.getvacc(index);
                 String status = this.check(doses,vaccine);
                 if(status=="FULLY VACCINATED"){
                     newday = Integer.MAX_VALUE;
@@ -380,6 +388,7 @@ public class COWIN {
 
             Reader.init(System.in);
             COWIN portal = new COWIN();
+
             int start = 0;
             int cont = 1;
             int ch;
@@ -401,10 +410,10 @@ public class COWIN {
                 }
                 ch = Reader.nextint();
                 if(ch==1){
-                    String vaccine;
+                    String vac;
                     int doses,gap;
                     System.out.print("Vaccine Name : ");
-                    vaccine = Reader.next();
+                    vac = Reader.next();
                     System.out.print("Number of doses : ");
                     doses = Reader.nextint();
                     gap = 0;
@@ -412,7 +421,7 @@ public class COWIN {
                         System.out.print("Gap between Doses : ");
                         gap = Reader.nextint();
                     }
-                    portal.add_Vaccine(vaccine ,doses,gap);
+                    portal.add_Vaccine(vac ,doses,gap);
                 }
                 else if(ch==2){
                     String name;
@@ -444,7 +453,7 @@ public class COWIN {
                     for(int i=0;i<num;i++){
                         System.out.print("Enter Day Number :");
                         day = Reader.nextint();
-                        System.out.println("Enter Quantity : ");
+                        System.out.print("Enter Quantity : ");
                         quantity = Reader.nextint();
                         System.out.println("Select Vaccine");
                         portal.vaccineprinter();
@@ -522,16 +531,39 @@ public class COWIN {
                 start = 1;
             }
 
+            /*
+            portal.add_Vaccine("Covax" , 2 , 2);
+            portal.add_Vaccine("Covi",1,0);
+            portal.Register_Hospital("Medistar" , 110091);
+            portal.Register_Hospital("HealthCenter",110001);
+            portal.add_slot(100000,1,5,0);
+            portal.add_slot(100000,2,5,1);
+            portal.allslots(100000);
+            portal.add_slot(100001,3,10,0);
+            portal.Register_Citizen("Justin",14,"1234566543");
+            portal.Register_Citizen("Marrion",23,"1234567890");
+            portal.Book_slot_by_area(110091);
+            portal.getslotsbyid(100000,"1234567890","");
+            portal.select_slot(100000,0,"1234567890");
+            portal.checkstatus("1234567890");
+            portal.Book_slot_by_vaccine("Covax");
+            portal.getslotsbyid(100000,"1234567890","Covax");
+            portal.getslotsbyid(100001,"1234567890","Covax");
+            portal.select_slot(100001,0,"1234567890");
+            portal.checkstatus("1234567890");
+            portal.allslots(100000);
+            portal.Register_Citizen("Mutt",45,"454545656");
+            portal.checkstatus("454545656");
+            portal.Register_Citizen("Oxley",67,"999999000");
+            portal.Book_slot_by_vaccine("Covi");
+            portal.getslotsbyid(100000,"999999000","Covi");
+            portal.select_slot(100000,1,"999999000");
+            portal.checkstatus("999999000");
+            */
 
         }
 
-    private void vaccineprinter() {
-        for(int i=0; vaccine.containsKey(i);i++){
-            Vaccine vac = vaccine.get(i);
-            System.out.println(i + ". " + vac.getName());
-        }
-        return;
-    }
+
 
     public static class Reader {
 
