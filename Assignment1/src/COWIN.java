@@ -311,8 +311,18 @@ public class COWIN {
         }
     }
 
-    int Book_slot_by_area(long pincode) {
+    int Book_slot_by_area(long pincode,String aadhar) {
         int flag=-1;
+        if(citizen.containsKey(aadhar)){
+            Citizen cit = citizen.get(aadhar);
+            if(cit.getDay()==Integer.MAX_VALUE){
+                System.out.println("Patient Already Vaccinated");
+                return flag;
+            }
+        }
+        else{
+            return flag;
+        }
         for (Map.Entry<Integer, Hospital> map : hospital.entrySet()) {
             int hid = map.getKey();
             Hospital hos = map.getValue();
@@ -327,8 +337,19 @@ public class COWIN {
         return flag;
     }
 
-    int Book_slot_by_vaccine(String vacname) {
+    int Book_slot_by_vaccine(String vacname , String aadhar) {
         int flag =-1;
+        if(citizen.containsKey(aadhar)){
+            Citizen cit = citizen.get(aadhar);
+            if(cit.getDay()==Integer.MAX_VALUE){
+                System.out.println("Patient Already Vaccinated");
+                return flag;
+            }
+        }
+        else{
+            return flag;
+        }
+
         for (Map.Entry<Integer, Hospital> map : hospital.entrySet()) {
             int hid = map.getKey();
             Hospital hos = map.getValue();
@@ -351,6 +372,12 @@ public class COWIN {
                 if(vac.length()==0) {
                     vac = cit.getVac();
                 }
+                String citvac = cit.getVac();
+                if(citvac.length()!=0&&vac.length()!=0){
+                    if(!citvac.equals(vac)){
+                        System.out.println("Different Vaccine already taken");
+                    }
+                }
                 int minday = cit.getDay();
                 return hos.printslots(vac, minday);
             }
@@ -358,7 +385,7 @@ public class COWIN {
         return -1;
     }
 
-    void select_slot(int id, int index, String aadhar) {
+    void select_slot(int id, int index, String aadhar ,String vacname) {
         if (hospital.containsKey(id)){
             Hospital hos = hospital.get(id);
             if(citizen.containsKey(aadhar)){
@@ -367,18 +394,23 @@ public class COWIN {
                 int minday = cit.getDay();
                 String name = cit.getName();
                 String vaccine = hos.getvacc(index);
-                int newday = hos.selectslot(name ,vac, minday, index);
-                if(newday==-1){
-                    System.out.println("Invalid slot Selected");
-                    return;
-                }
-                else{
-                    int doses = cit.getDoses() + 1;
-                    String status = this.check(doses,vaccine);
-                    if(status=="FULLY VACCINATED"){
-                        newday = Integer.MAX_VALUE;
+                if(vaccine.equals(vacname) || vacname.length()==0){
+                    int newday = hos.selectslot(name ,vac, minday, index);
+                    if(newday==-1){
+                        System.out.println("Invalid slot Selected");
+                        return;
                     }
-                    cit.setter(vaccine,newday,status);
+                    else{
+                        int doses = cit.getDoses() + 1;
+                        String status = this.check(doses,vaccine);
+                        if(status.equals("FULLY VACCINATED")){
+                            newday = Integer.MAX_VALUE;
+                        }
+                        cit.setter(vaccine,newday,status);
+                    }
+                }
+                else {
+                    System.out.println("Cannot book slot for other vaccine");
                 }
             }
             else{
@@ -472,7 +504,12 @@ public class COWIN {
                     age = Reader.nextint();
                     System.out.print("Unique ID : ");
                     aadhar = Reader.next();
-                    portal.Register_Citizen(name,age,aadhar);
+                    if(aadhar.length()==12){
+                        portal.Register_Citizen(name,age,aadhar);
+                    }
+                    else {
+                        System.out.println("Unique ID of citizen must be of 12 digits");
+                    }
                 }
                 else if(ch==4){
                     int id, num ,day ,quantity ,vacnum;
@@ -485,7 +522,7 @@ public class COWIN {
                         day = Reader.nextint();
                         System.out.print("Enter Quantity : ");
                         quantity = Reader.nextint();
-                        System.out.println("Select Vaccine");
+                        System.out.println("Select Vaccine ");
                         portal.vaccineprinter();
                         vacnum = Reader.nextint();
                         portal.add_slot(id,day,quantity,vacnum);
@@ -505,7 +542,7 @@ public class COWIN {
                     if(choice==1){
                         System.out.print("Enter PinCode :");
                         long pincode = Reader.nextlong();
-                        int flag = portal.Book_slot_by_area(pincode);
+                        int flag = portal.Book_slot_by_area(pincode,aadhar);
                         if(flag!=-1){
                             int id;
                             System.out.print("Enter Hospital id : ");
@@ -514,7 +551,7 @@ public class COWIN {
                             if(k!=-1){
                                 System.out.print("Choose slot :");
                                 int index = Reader.nextint();
-                                portal.select_slot(id,index,aadhar);
+                                portal.select_slot(id,index,aadhar,"");
                             }
                             else{
                                 System.out.println("No slots Available");
@@ -525,7 +562,7 @@ public class COWIN {
                         String vaccine;
                         System.out.print("Enter Vaccine Name : ");
                         vaccine = Reader.next();
-                        int flag = portal.Book_slot_by_vaccine(vaccine);
+                        int flag = portal.Book_slot_by_vaccine(vaccine,aadhar);
                         if(flag!=-1){
                             int id;
                             System.out.print("Enter Hospital id : ");
@@ -534,7 +571,7 @@ public class COWIN {
                             if(k!=-1){
                                 System.out.print("Choose slot :");
                                 int index = Reader.nextint();
-                                portal.select_slot(id,index,aadhar);
+                                portal.select_slot(id,index,aadhar,vaccine);
                             }
                             else{
                                 System.out.println("No slots Available");
