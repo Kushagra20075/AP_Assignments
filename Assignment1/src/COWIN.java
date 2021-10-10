@@ -262,6 +262,15 @@ public class COWIN {
         }
         return;
     }
+    public boolean vaccinecheck(String vac) {
+        for(int i=0;i<vaccine.size();i++){
+            Vaccine vacc = vaccine.get(i);
+            if(vac.equals(vacc.getName())){
+                return true;
+            }
+        }
+        return false;
+    }
 
 
     void add_Vaccine(String name, int doses, int gap) {
@@ -471,19 +480,25 @@ public class COWIN {
                     int doses,gap;
                     System.out.print("Vaccine Name : ");
                     vac = Reader.next();
-                    System.out.print("Number of doses : ");
-                    doses = Reader.nextint();
-                    gap = 0;
-                    if(doses>1){
-                        System.out.print("Gap between Doses : ");
-                        gap = Reader.nextint();
+                    if(portal.vaccinecheck(vac)){
+                        System.out.println("Vaccine already present");
                     }
-                    if(doses<1){
-                        System.out.println("No. of doses must be greater than 1");
+                    else{
+                        System.out.print("Number of doses : ");
+                        doses = Reader.nextint();
+                        gap = 0;
+                        if(doses>1){
+                            System.out.print("Gap between Doses : ");
+                            gap = Reader.nextint();
+                        }
+                        if(doses<1){
+                            System.out.println("No. of doses must be greater than 1");
+                        }
+                        else if(doses>=1){
+                            portal.add_Vaccine(vac ,doses,gap);
+                        }
                     }
-                    else if(doses>=1){
-                        portal.add_Vaccine(vac ,doses,gap);
-                    }
+
                 }
                 else if(ch==2){
                     String name;
@@ -632,6 +647,7 @@ public class COWIN {
             */
 
         }
+
 
 
 
