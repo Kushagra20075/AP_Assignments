@@ -459,21 +459,19 @@ public class COWIN {
             int cont = 1;
             int ch;
             System.out.println("Portal Intialized");
-            System.out.println("...................................................................");
-            System.out.println("1. Add Vaccine");
-            System.out.println("2. Register Hospital");
-            System.out.println("3. Register Citizen");
-            System.out.println("4. Add slot for Vaccination");
-            System.out.println("5. Book slot for Vaccination");
-            System.out.println("6. List all slots for a hospital");
-            System.out.println("7. Check Vaccination status");
-            System.out.println("8. Exit");
-            System.out.println("...................................................................");
+
 
             while(cont==1){
-                if(start!=0){
-                    System.out.println("{Menu Options}");
-                }
+                System.out.println("...................................................................");
+                System.out.println("1. Add Vaccine");
+                System.out.println("2. Register Hospital");
+                System.out.println("3. Register Citizen");
+                System.out.println("4. Add slot for Vaccination");
+                System.out.println("5. Book slot for Vaccination");
+                System.out.println("6. List all slots for a hospital");
+                System.out.println("7. Check Vaccination status");
+                System.out.println("8. Exit");
+                System.out.println("...................................................................");
                 ch = Reader.nextint();
                 if(ch==1){
                     String vac;
@@ -612,8 +610,6 @@ public class COWIN {
                 else{
                     System.out.println("Please Enter choices from the menu");
                 }
-                System.out.println("...................................................................");
-                start = 1;
             }
 
             /*
