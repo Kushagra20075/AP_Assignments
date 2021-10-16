@@ -57,13 +57,11 @@ public class Backpack {
         this.comment.add(comobj);
     }
     void printComments(){
-        for(int i=0;i<comment.size();i++){
-            Comment comobj = comment.get(i);
+        for (Comment comobj : comment) {
             comobj.view();
         }
     }
 
-    
 
     public static void main(String[] args){
         Student stud = new Student("Kushagra");
