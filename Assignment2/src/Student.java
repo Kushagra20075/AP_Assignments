@@ -1,28 +1,21 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Student implements Logger {
 
     private String name;
-    HashMap <Assessment,Integer> assessments = new HashMap<>();
 
 
     Student(String name){
         this.name= name;
     }
 
-    void add_Assessment(Assessment ass){
-        if(assessments.containsKey(ass)){
-            System.out.println("Faaltu harkat mt kro");
-        }
-        else {
-            assessments.put(ass,-1);
+    @Override
+    public void view_lectures(ArrayList<Material> material) {
+        for (Material mat : material) {
+            mat.view();
         }
     }
-
-    HashMap <Assessment,Integer> function(){
-        return assessments;
-    }
-
 
     @Override
     public String getName() {
@@ -31,5 +24,13 @@ public class Student implements Logger {
     @Override
     public int WhoAmI(){
         return 0;
+    }
+
+    @Override
+    public void view_Assessment(ArrayList<Assessment> assessments) {
+        for(int i=0;i<assessments.size();i++){
+            Assessment ass = assessments.get(i);
+            ass.view_Assessment(i);
+        }
     }
 }

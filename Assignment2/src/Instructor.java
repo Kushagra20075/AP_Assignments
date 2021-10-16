@@ -7,8 +7,25 @@ public class Instructor implements Logger {
         this.name="";
     }
 
-    void add(Material lecturemat,ArrayList<Material> material){
-        material.add(lecturemat);
+    void add(Material lecturemat,ArrayList<Material> material){ material.add(lecturemat); }
+
+    void close(Assessment assessment , ArrayList<Assessment> assessments){
+        for(Assessment ass : assessments){
+            if(ass == assessment){
+                ass.close();
+            }
+        }
+    }
+
+
+
+
+
+    @Override
+    public void view_lectures(ArrayList<Material> material) {
+        for (Material mat : material) {
+            mat.view();
+        }
     }
 
     @Override
@@ -19,5 +36,10 @@ public class Instructor implements Logger {
     @Override
     public int WhoAmI(){
         return 1;
+    }
+
+    @Override
+    public void view_Assessment(ArrayList<Assessment> assessments) {
+
     }
 }

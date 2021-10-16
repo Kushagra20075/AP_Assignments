@@ -5,6 +5,7 @@ public class Backpack {
     private ArrayList<Student> student;
     private ArrayList<Comment> comment;
     private ArrayList<Material> material;
+    private ArrayList<Assessment> assessments;
     private Logger User;
     private Instructor IUser;
     private Student SUser;
@@ -14,20 +15,38 @@ public class Backpack {
         this.instructor = new ArrayList<>();
         this.comment = new ArrayList<>();
         this.student = new ArrayList<>();
+        this.assessments = new ArrayList<>();
         this.IUser = null;
         this.SUser = null;
         this.User = null;
     }
 
-    void add(Material lecturemat){
+    void add_lecture(Material lecturemat){
         if(IUser!=null){
             IUser.add(lecturemat,material);
         }
         System.out.println("Student must not access it");
     }
 
-    void view_Material(){
+    void add_assessment(Assessment test){
+        if(IUser!=null){
+            assessments.add(test);
+        }
+        System.out.println("Student must not access it");
+    }
 
+    void view_Assessments(){
+        User.view_Assessment(assessments);
+    }
+    
+    void close_Assessment(Assessment assessment){
+        if(IUser!=null){
+            IUser.close(assessment,assessments);
+        }
+    }
+    
+    void view_lectures(){
+        User.view_lectures(material);
     }
 
     void Logout(){
@@ -62,7 +81,6 @@ public class Backpack {
         }
     }
 
-
     public static void main(String[] args){
         Student stud = new Student("Kushagra");
         Instructor ins = new Instructor();
@@ -71,5 +89,22 @@ public class Backpack {
         portal.addComment("Shivaansh is a bad boy");
         portal.addComment("Nishaant is very confused");
         portal.printComments();
+        //1. Add class material ----OBj to be made in main function
+        //2. Add assessments -----Obj to be made in main function
+        //3. View lecture materials -----------------
+        //4. View assessments ---------------------
+        //5. Grade assessments
+        //6. Close assessment ---------------------
+        //7. View comments --------------------
+        //8. Add comments -------------------
+        //9. Logout --------------------------
+
+        //1. View lecture materials -------------------------
+        //2. View assessments --------------------------
+        //3. Submit assessment
+        //4. View grades
+        //5. View comments ------------------
+        //6. Add comments --------------------
+        //7. Logout -------------------
     }
 }

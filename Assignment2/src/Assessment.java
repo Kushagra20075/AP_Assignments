@@ -1,4 +1,5 @@
 public interface Assessment {
-    void add_Assessment(Instructor Publisher, String problem);
-    void view_Assessment();
+    void view_Assessment(int i);
+    boolean check_Submission(Submission answer);
+    void close();
 }
