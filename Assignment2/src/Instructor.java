@@ -17,39 +17,21 @@ public class Instructor implements Logger {
             }
         }
     }
-
-
     public void grade(Assessment ass, int marks, Student stud) {
         int x = ass.grade(stud,marks,this);
     }
-
-
-
-
-
-
-
     @Override
     public void view_lectures(ArrayList<Material> material) {
         for (Material mat : material) {
             mat.view();
         }
     }
-
     @Override
     public String getName(){
         return this.name;
     }
-
     @Override
     public int WhoAmI(){
         return 1;
     }
-
-    @Override
-    public void view_Assessment(ArrayList<Assessment> assessments) {
-
-    }
-
-
 }

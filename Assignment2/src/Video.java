@@ -19,7 +19,7 @@ public class Video implements Material {
     @Override
     public boolean is_correct(String filename) {
         int size = filename.length();
-        return size >= 5 && filename.endsWith(".zip");
+        return size >= 5 && filename.endsWith(".mp4");
     }
 
     @Override

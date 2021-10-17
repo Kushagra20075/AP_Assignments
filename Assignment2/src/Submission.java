@@ -3,26 +3,18 @@ public class Submission {
     int marks;
     boolean isopen;
     Instructor grader;
-
     Submission(String solution){
         this.solution = solution;
         this.marks = -1;
         this.isopen = true;
         this.grader = null;
     }
-
     public String getSolution() {
         return solution;
     }
-
     public int getMarks() {
         return marks;
     }
-
-    public boolean isIsopen() {
-        return isopen;
-    }
-
     void close(){
         this.isopen = false;
         if(this.marks==-1){
@@ -33,7 +25,6 @@ public class Submission {
         this.marks = marks;
         this.grader = grader;
     }
-
     String getgrader(){
         return this.grader.getName();
     }

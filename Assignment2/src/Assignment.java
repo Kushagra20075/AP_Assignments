@@ -1,13 +1,12 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 public class Assignment implements Assessment{
     String problem;
     Instructor Publisher;
     HashMap<Student , Submission> submissions;
     int maxmarks;
-
+    boolean isclosed;
     Assignment(String problem , Instructor Publisher , int maxmarks , ArrayList<Student> students) {
         this.problem = problem;
         this.Publisher = Publisher;
@@ -16,8 +15,8 @@ public class Assignment implements Assessment{
         for(Student stud : students){
             submissions.put(stud,null);
         }
+        this.isclosed = false;
     }
-
     @Override
     public int grade(Student stud, int marks , Instructor prof) {
         if(submissions.containsKey(stud)){
@@ -34,12 +33,10 @@ public class Assignment implements Assessment{
         System.out.println("Student does not exist");
         return -1;
     }
-
     @Override
     public Instructor get_Publisher() {
         return Publisher;
     }
-
     @Override
     public void close() {
         for(Map.Entry<Student , Submission> map : submissions.entrySet()){
@@ -47,20 +44,19 @@ public class Assignment implements Assessment{
                 map.getValue().close();
             }
         }
+        this.isclosed = true;
     }
-
     @Override
     public void view_Assessment(int index) {
-        System.out.println("ID :" + index + "Assignment: " + problem + " Max Marks: " + maxmarks);
+        System.out.println("ID :" + index + " Assignment: " + problem + " Max Marks: " + maxmarks);
     }
     //Complete this
     @Override
     public boolean check_Submission(Submission answer) {
         int size = answer.getSolution().length();
         String ans = answer.getSolution();
-        return size >= 5 && ans.endsWith(".mp4");
+        return size >= 5 && ans.endsWith(".zip");
     }
-
     @Override
     public boolean is_graded(Student stud) {
         if(submissions.containsKey(stud)){
@@ -88,10 +84,31 @@ public class Assignment implements Assessment{
             }
         }
     }
+
+    @Override
+    public void print_submission(Student student) {
+        if (submissions.containsKey(student)) {
+            Submission sub = submissions.get(student);
+            if(sub!=null){
+                System.out.println("Submission : " + sub.getSolution());
+                System.out.println("----------------------------------");
+                System.out.println("Max Marks : " + this.maxmarks );
+            }
+        }
+    }
+    @Override
+    public boolean is_closed() {
+        return this.isclosed;
+    }
+
     @Override
     public void submit(Student student, Submission sub) {
         if(!submissions.containsKey(student)){
             submissions.put(student,sub);
         }
+    }
+    @Override
+    public void print_question() {
+        System.out.print("Enter the filename for this assignment : ");
     }
 }

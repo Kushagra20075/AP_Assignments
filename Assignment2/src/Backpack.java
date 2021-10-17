@@ -46,12 +46,37 @@ public class Backpack {
     void add_assessment(Assessment test){
         if(IUser!=null){
             assessments.add(test);
+            return;
         }
         System.out.println("Student must not access it");
     }
 
     void view_Assessments(){
-        User.view_Assessment(assessments);
+        for(int i=0;i<assessments.size();i++){
+            Assessment ass = assessments.get(i);
+            ass.view_Assessment(i);
+        }
+    }
+    public boolean ispending(){
+        boolean flag=false;
+        if(SUser!=null){
+            for (Assessment ass : assessments) {
+                if (!ass.is_submitted(SUser)) {
+                    flag = true;
+                }
+            }
+        }
+        return flag;
+    }
+    public void printpending(){
+        if(SUser!=null){
+            for(int i=0;i<assessments.size();i++){
+                Assessment ass = assessments.get(i);
+                if(!ass.is_submitted(SUser)){
+                    ass.view_Assessment(i);
+                }
+            }
+        }
     }
     
     void close_Assessment(Assessment assessment){
@@ -234,7 +259,6 @@ public class Backpack {
                             portal.add_assessment(quiz);
                         }
                         else {
-
                             //shi choice daalo na TT_TT
                         }
                     }
@@ -243,16 +267,42 @@ public class Backpack {
                     else if(ch3==4){ portal.view_Assessments();}
                     else if(ch3==5){
                         portal.view_Assessments();
-
+                        System.out.println("Enter the ID of assessment to view submissions : ");
+                        int in = cin.nextInt();
+                        Assessment ass = portal.getassessment(in);
+                        System.out.println("Choose ID from these ungraded submissions");
+                        portal.printungradedstudents(ass);
+                        in = cin.nextInt();
+                        Student s = portal.getStudent(in);
+                        System.out.println("Submission");
+                        ass.print_submission(stud);
+                        System.out.print("Marks Scored : ");
+                        int marks = cin.nextInt();
+                        portal.Grade(marks,ass,stud);
                     }
-                    else if(ch3==6){}
-                    else if(ch3==7){}
-                    else if(ch3==8){}
+                    else if(ch3==6){
+                        portal.printopenassessments();
+                        System.out.print("Enter ID of Assignment to close :");
+                        int id = cin.nextInt();
+                        Assessment ass = portal.getassessment(id);
+                        portal.close_Assessment(ass);
+                    }
+                    else if(ch3==7){
+                        portal.printComments();
+                    }
+                    else if(ch3==8){
+                        String Comment;
+                        System.out.print("Enter comment :");
+                        Comment = cin.nextLine();
+                        portal.addComment(Comment);
+                    }
                     else if(ch3==9){
                         portal.Logout();
                         cont2=0;
                     }
-                    else{}
+                    else{
+                        System.out.println("Wrong choice \nEnter Again");
+                    }
                 }
             }
             else if(ch==2){
@@ -271,15 +321,53 @@ public class Backpack {
                 Student ilog = portal.getStudent(index);
                 portal.Login(ilog);
                 //Chalo Login to krlia
+                int cont2 = 1;
+                while(cont2==1){
+                    int ch3;
+                    //Menu Drive will be here :)
+                    System.out.println("Menu drive");
+                    ch3 = cin.nextInt();
+                    if(ch3==1){ portal.view_lectures(); }
+                    else if(ch3==2){ portal.view_Assessments(); }
+                    else if(ch3==3){
+                        if(portal.ispending()){
+                            System.out.println("Pending Assessments");
+                            portal.printpending();
+                            System.out.print("Enter ID of assessment :");
+                            int id = cin.nextInt();
+                            Assessment ass = portal.getassessment(id);
+                            ass.print_question();
+                            String ans = cin.nextLine();
+                            Submission sub = new Submission(ans);
+                            portal.submit_Assessment(ass,sub);
+                        }
+                        else{
+                            System.out.println("No Pending Assessments");
+                        }
+                    }
+                    else if(ch3==4){ portal.viewGrades(); }
+                    else if(ch3==5){
+                        portal.printComments();
+                    }
+                    else if(ch3==6){
+                        String Comment;
+                        System.out.print("Enter comment :");
+                        Comment = cin.nextLine();
+                        portal.addComment(Comment);
+                    }
+                    else if(ch3==7){
+                        portal.Logout();
+                        cont2=0;
+                    }
+                    else{ System.out.println("Wrong choice \nEnter Again"); }
+
+                }
 
             }
             else{
                 cont =0;
             }
         }
-
-
-
         //1. Add class material ----OBj to be made in main function
         //2. Add assessments -----Obj to be made in main function
         //3. View lecture materials -----------------
@@ -298,6 +386,29 @@ public class Backpack {
         //6. Add comments --------------------
         //7. Logout -------------------
     }
+    private void printopenassessments() {
+        int id =0;
+        for(Assessment ass : assessments){
+            if(!ass.is_closed()){
+                ass.view_Assessment(id);
+                System.out.println("--------------------");
+            }
+            id++;
+        }
+    }
+
+    private void printungradedstudents(Assessment ass) {
+        for(int i=0;i< student.size();i++){
+            if(!ass.is_graded(student.get(i)))
+                System.out.println( i + " - " + student.get(i).getName());
+        }
+    }
+
+
+
+    public Assessment getassessment(int index) {
+        return assessments.get(index);
+    }
 
     private void printinstructors() {
         for(int i=0;i<instructor.size();i++){
@@ -305,8 +416,8 @@ public class Backpack {
         }
     }
     private void printstudents() {
-        for(int i=0;i<instructor.size();i++){
-            System.out.println( i + " - " + instructor.get(i).getName());
+        for(int i=0;i< student.size();i++){
+            System.out.println( i + " - " + student.get(i).getName());
         }
     }
 

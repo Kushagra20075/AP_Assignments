@@ -8,6 +8,7 @@ public class Quiz implements Assessment{
     int maxmarks;
     HashMap<Student , Submission> submissions;
     Instructor Publisher;
+    boolean isclosed;
 
     Quiz(String question , int maxmarks , ArrayList<Student> students , Instructor Publisher){
         this.maxmarks = maxmarks;
@@ -17,6 +18,7 @@ public class Quiz implements Assessment{
         for(Student stud : students){
             submissions.put(stud,null);
         }
+        isclosed = false;
     }
 
     @Override
@@ -45,20 +47,26 @@ public class Quiz implements Assessment{
     public void close() {
         for(Map.Entry<Student , Submission> map : submissions.entrySet()){
             if(map.getValue() !=null){
+
                 map.getValue().close();
             }
         }
+        this.isclosed = true;
+    }
+
+    @Override
+    public boolean is_closed() {
+        return this.isclosed;
     }
     @Override
     public void view_Assessment(int index) {
-        System.out.println("ID :" + index + "Question: " + question);
+        System.out.println("ID : " + index + " Question: " + question);
     }
     //Complete this
     @Override
     public boolean check_Submission(Submission answer) {
         return true;
     }
-
     @Override
     public boolean is_graded(Student stud) {
         if(submissions.containsKey(stud)){
@@ -67,7 +75,6 @@ public class Quiz implements Assessment{
         }
         return false;
     }
-
     @Override
     public boolean is_submitted(Student stud) {
         if(submissions.containsKey(stud)){
@@ -75,6 +82,17 @@ public class Quiz implements Assessment{
             return sub != null;
         }
         return false;
+    }
+    @Override
+    public void print_submission(Student student) {
+        if (submissions.containsKey(student)) {
+            Submission sub = submissions.get(student);
+            if(sub!=null){
+                System.out.println("Submission : " + sub.getSolution());
+                System.out.println("----------------------------------");
+                System.out.println("Max Marks : " + this.maxmarks );
+            }
+        }
     }
 
     @Override
@@ -95,5 +113,8 @@ public class Quiz implements Assessment{
             submissions.put(student,sub);
         }
     }
-
+    @Override
+    public void print_question() {
+        System.out.print(this.question + " ");
+    }
 }

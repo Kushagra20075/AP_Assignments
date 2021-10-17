@@ -2,21 +2,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Student implements Logger {
-
     private String name;
-
-
     Student(String name){
         this.name= name;
     }
-
     @Override
     public void view_lectures(ArrayList<Material> material) {
         for (Material mat : material) {
             mat.view();
         }
     }
-
     @Override
     public String getName() {
         return this.name;
@@ -25,15 +20,6 @@ public class Student implements Logger {
     public int WhoAmI(){
         return 0;
     }
-
-    @Override
-    public void view_Assessment(ArrayList<Assessment> assessments) {
-        for(int i=0;i<assessments.size();i++){
-            Assessment ass = assessments.get(i);
-            ass.view_Assessment(i);
-        }
-    }
-
     public void viewgrade(ArrayList<Assessment> assessments) {
         System.out.println("Graded Submissions");
         System.out.println("---------------------------");
@@ -43,7 +29,7 @@ public class Student implements Logger {
                 ass.printer(this);
             }
         }
-        System.out.println("Graded Submissions");
+        System.out.println("UnGraded Submissions");
         System.out.println("---------------------------");
         for(Assessment ass : assessments){
             if(!ass.is_graded(this)&&ass.is_submitted(this)){
@@ -51,7 +37,6 @@ public class Student implements Logger {
             }
         }
     }
-
     public void submit(Assessment ass, Submission sub) {
         if(ass.check_Submission(sub)){
             ass.submit(this,sub);
