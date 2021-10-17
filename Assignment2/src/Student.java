@@ -33,4 +33,31 @@ public class Student implements Logger {
             ass.view_Assessment(i);
         }
     }
+
+    public void viewgrade(ArrayList<Assessment> assessments) {
+        System.out.println("Graded Submissions");
+        System.out.println("---------------------------");
+        for(Assessment ass : assessments){
+
+            if(ass.is_graded(this)){
+                ass.printer(this);
+            }
+        }
+        System.out.println("Graded Submissions");
+        System.out.println("---------------------------");
+        for(Assessment ass : assessments){
+            if(!ass.is_graded(this)&&ass.is_submitted(this)){
+                ass.printer(this);
+            }
+        }
+    }
+
+    public void submit(Assessment ass, Submission sub) {
+        if(ass.check_Submission(sub)){
+            ass.submit(this,sub);
+        }
+        else{
+            System.out.println("Wong Submission Format");
+        }
+    }
 }

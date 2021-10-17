@@ -16,14 +16,29 @@ public class Backpack {
         this.comment = new ArrayList<>();
         this.student = new ArrayList<>();
         this.assessments = new ArrayList<>();
+        this.material = new ArrayList<>();
         this.IUser = null;
         this.SUser = null;
         this.User = null;
     }
+    public void addInstructor(Instructor ins) {
+        instructor.add(ins);
+    }
+    private void addStudent(Student stud) {
+        student.add(stud);
+    }
 
+    //Check function left TT_TT to be done when crating object;
     void add_lecture(Material lecturemat){
         if(IUser!=null){
-            IUser.add(lecturemat,material);
+            if(lecturemat.is_correct(lecturemat.getname())){
+                IUser.add(lecturemat,material);
+                return;
+            }
+            else{
+                System.out.println("Wrong format");
+                return;
+            }
         }
         System.out.println("Student must not access it");
     }
@@ -59,22 +74,52 @@ public class Backpack {
         this.User = User;
         if(whoAmI()==0){
             SUser = (Student)User;
+
         }
         else{
             IUser = (Instructor) User;
         }
+    }
+
+    void Hello(){
+        System.out.println("Hello " + User.getName());
     }
     int whoAmI(){
         //0 for student
         //1 for Instructor
         return User.WhoAmI();
     }
+
+
+
+    void Grade(int marks , Assessment ass , Student stud){
+        if(IUser!=null){
+            if(IUser ==(ass.get_Publisher())){
+                IUser.grade(ass,marks,stud);
+            }
+        }
+    }
+
+    void submit_Assessment(Assessment ass,Submission sub){
+        if(SUser!=null){
+            SUser.submit(ass,sub);
+        }
+    }
+
     void addComment(String comment){
-        String name = User.getName();
         Date date = new Date();
         Comment comobj = new Comment(comment,User,date);
         this.comment.add(comobj);
     }
+
+    void viewGrades(){
+        if(SUser!=null){
+            SUser.viewgrade(assessments);
+        }
+    }
+
+
+
     void printComments(){
         for (Comment comobj : comment) {
             comobj.view();
@@ -82,18 +127,164 @@ public class Backpack {
     }
 
     public static void main(String[] args){
-        Student stud = new Student("Kushagra");
-        Instructor ins = new Instructor();
         Backpack portal = new Backpack();
-        portal.Login(stud);
-        portal.addComment("Shivaansh is a bad boy");
-        portal.addComment("Nishaant is very confused");
-        portal.printComments();
+        Reader cin = new Reader();
+        //Hardcoding the add part
+
+        Instructor ins = new Instructor("I0");
+        portal.addInstructor(ins);
+        ins = new Instructor("I1");
+        portal.addInstructor(ins);
+        Student stud = new Student("S0");
+        portal.addStudent(stud);
+        stud = new Student("S1");
+        portal.addStudent(stud);
+        stud = new Student("S2");
+        portal.addStudent(stud);
+        int cont=1;
+        while(cont==1){
+            System.out.println("Welcome to backpack");
+            int ch,ch2;
+            System.out.println("1. Enter as Instructor");
+            System.out.println("2. Enter as Student");
+            System.out.println("3. Exit");
+            ch = cin.nextInt();
+            if(ch==1) {
+                //Instructor Menu
+                portal.printinstructors();
+                int index = cin.nextInt();
+                Instructor ilog = portal.getInstructor(index);
+
+                portal.Login(ilog);
+                //1. Add class material ----OBj to be made in main function
+                //2. Add assessments -----Obj to be made in main function
+                //3. View lecture materials -----------------
+                //4. View assessments ---------------------
+                //5. Grade assessments --------------------
+                //6. Close assessment ---------------------
+                //7. View comments --------------------
+                //8. Add comments -------------------
+                //9. Logout --------------------------
+                int cont2 = 1;
+                while (cont2 == 1) {
+                    int ch3;
+                    //Menu Drive will be here :)
+                    System.out.println("Menu drive");
+                    ch3 = cin.nextInt();
+                    if (ch3 == 1) {
+                        int ch4;
+                        System.out.println("Slide \n Video");
+                        //Video
+                        ch4 = cin.nextInt();
+                        if (ch4 == 1) {
+                            String topic;
+                            String filename;
+                            System.out.print("Enter topic of Lecture Slides :");
+                            topic = cin.nextLine();
+                            System.out.print("Enter the no. of slides : ");
+                            int slides;
+                            slides = cin.nextInt();
+                            ArrayList<String> content = new ArrayList<>();
+                            System.out.println("Enter the content of slides");
+                            String contents;
+                            for(int i=0;i<slides; i++){
+                                System.out.print("Enter content of slide " + i+1 + " : ");
+                                contents = cin.nextLine();
+                                content.add(contents);
+                            }
+                            Slide material = new Slide(topic,content,new Date(), ilog);
+                            portal.add_lecture(material);
+                        }
+                        else if (ch4 == 2) {
+                            String topic;
+                            String filename;
+                            System.out.print("Enter topic of video :");
+                            topic = cin.nextLine();
+                            System.out.print("Enter filename of the video :");
+                            filename = cin.next();
+                            Video material = new Video(topic,filename,new Date() ,ilog);
+                            portal.add_lecture(material);
+                        }
+                    }
+                    else if(ch3==2){
+                        int ch4;
+                        System.out.println("Assignment \nQuiz");
+                        //Assignment
+                        //Quiz
+                        ch4 = cin.nextInt();
+                        if (ch4 == 1) {
+                            String problem;
+                            int maxmarks;
+                            System.out.print("Enter Problem Statement : ");
+                            problem = cin.nextLine();
+                            System.out.println("Enter max marks : ");
+                            maxmarks = cin.nextInt();
+                            Assignment ass = new Assignment(problem,ilog,maxmarks,portal.getStudents());
+                            portal.add_assessment(ass);
+
+                        }
+                        else if (ch4 == 2) {
+                            String problem;
+                            int maxmarks;
+                            System.out.print("Enter Quiz Problem : ");
+                            problem = cin.nextLine();
+                            System.out.println("Enter max marks : ");
+                            maxmarks = cin.nextInt();
+                            Quiz quiz = new Quiz(problem,maxmarks,portal.getStudents(),ilog);
+                            portal.add_assessment(quiz);
+                        }
+                        else {
+
+                            //shi choice daalo na TT_TT
+                        }
+                    }
+
+                    else if(ch3==3){ portal.view_lectures();}
+                    else if(ch3==4){ portal.view_Assessments();}
+                    else if(ch3==5){
+                        portal.view_Assessments();
+
+                    }
+                    else if(ch3==6){}
+                    else if(ch3==7){}
+                    else if(ch3==8){}
+                    else if(ch3==9){
+                        portal.Logout();
+                        cont2=0;
+                    }
+                    else{}
+                }
+            }
+            else if(ch==2){
+                //Student Menu
+                //1. Add class material ----OBj to be made in main function
+                //2. Add assessments -----Obj to be made in main function
+                //3. View lecture materials -----------------
+                //4. View assessments ---------------------
+                //5. Grade assessments --------------------
+                //6. Close assessment ---------------------
+                //7. View comments --------------------
+                //8. Add comments -------------------
+                //9. Logout --------------------------
+                portal.printstudents();
+                int index = cin.nextInt();
+                Student ilog = portal.getStudent(index);
+                portal.Login(ilog);
+                //Chalo Login to krlia
+
+            }
+            else{
+                cont =0;
+            }
+        }
+
+
+
         //1. Add class material ----OBj to be made in main function
         //2. Add assessments -----Obj to be made in main function
         //3. View lecture materials -----------------
         //4. View assessments ---------------------
-        //5. Grade assessments
+        //5. Grade assessments --------------------
         //6. Close assessment ---------------------
         //7. View comments --------------------
         //8. Add comments -------------------
@@ -107,4 +298,34 @@ public class Backpack {
         //6. Add comments --------------------
         //7. Logout -------------------
     }
+
+    private void printinstructors() {
+        for(int i=0;i<instructor.size();i++){
+            System.out.println( i + " - " + instructor.get(i).getName());
+        }
+    }
+    private void printstudents() {
+        for(int i=0;i<instructor.size();i++){
+            System.out.println( i + " - " + instructor.get(i).getName());
+        }
+    }
+
+    public Instructor getInstructor(int index){
+        if(index<instructor.size()){
+            return instructor.get(index);
+        }
+        return null;
+    }
+
+    public Student getStudent(int index){
+        if(index<student.size()){
+            return student.get(index);
+        }
+        return null;
+    }
+
+    public ArrayList<Student> getStudents(){
+        return this.student;
+    }
+
 }

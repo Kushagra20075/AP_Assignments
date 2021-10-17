@@ -3,11 +3,12 @@ import java.util.ArrayList;
 public class Instructor implements Logger {
 
     private String name;
-    Instructor(){
-        this.name="";
+    Instructor(String name){
+        this.name=name;
     }
 
-    void add(Material lecturemat,ArrayList<Material> material){ material.add(lecturemat); }
+    void add(Material lecturemat,ArrayList<Material> material){
+        material.add(lecturemat); }
 
     void close(Assessment assessment , ArrayList<Assessment> assessments){
         for(Assessment ass : assessments){
@@ -16,6 +17,13 @@ public class Instructor implements Logger {
             }
         }
     }
+
+
+    public void grade(Assessment ass, int marks, Student stud) {
+        int x = ass.grade(stud,marks,this);
+    }
+
+
 
 
 
@@ -42,4 +50,6 @@ public class Instructor implements Logger {
     public void view_Assessment(ArrayList<Assessment> assessments) {
 
     }
+
+
 }
