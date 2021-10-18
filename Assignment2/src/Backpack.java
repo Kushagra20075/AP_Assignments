@@ -52,12 +52,7 @@ public class Backpack {
     }
 
     void view_Assessments(){
-        for(int i=0;i<assessments.size();i++){
-            Assessment ass = assessments.get(i);
-            if(!ass.is_closed())
-                ass.view_Assessment(i);
-                System.out.println("-------------------------------------------");
-        }
+        User.viewassessments(assessments);
     }
     public boolean ispending(){
         boolean flag=false;
@@ -95,13 +90,12 @@ public class Backpack {
         //Student
         SUser = null;
         IUser = null;
-        User = null;
+        User = User.Logout();
     }
     void Login(Logger User){
         this.User = User;
         if(whoAmI()==0){
             SUser = (Student) User;
-
         }
         else{
             IUser = (Instructor) User;
@@ -132,9 +126,7 @@ public class Backpack {
     }
 
     void addComment(String comment){
-        Date date = new Date();
-        Comment comobj = new Comment(comment,User,date);
-        this.comment.add(comobj);
+        User.addComment(this.comment , comment);
     }
 
     void viewGrades(){
@@ -146,9 +138,7 @@ public class Backpack {
 
 
     void printComments(){
-        for (Comment comobj : comment) {
-            comobj.view();
-        }
+        User.view_comments(comment);
     }
 
     public static void main(String[] args){
