@@ -1,10 +1,12 @@
 import java.util.Date;
 
 public class Video implements Material {
-    String topic;
-    String filename;
-    Date publish;
-    Instructor Publisher;
+    private String topic;
+    private String filename;
+    private Date publish;
+    private Instructor Publisher;
+
+
     Video(String topic , String filename , Date publish ,Instructor Publisher){
         this.topic = topic;
         this.filename = filename;

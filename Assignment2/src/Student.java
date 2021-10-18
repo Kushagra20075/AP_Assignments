@@ -3,6 +3,7 @@ import java.util.HashMap;
 
 public class Student implements Logger {
     private String name;
+
     Student(String name){
         this.name= name;
     }

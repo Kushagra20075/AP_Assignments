@@ -4,11 +4,11 @@ import java.util.Map;
 
 public class Quiz implements Assessment{
 
-    String question;
-    int maxmarks;
-    HashMap<Student , Submission> submissions;
-    Instructor Publisher;
-    boolean isclosed;
+    private String question;
+    private int maxmarks;
+    private HashMap<Student , Submission> submissions;
+    private Instructor Publisher;
+    private boolean isclosed;
 
     Quiz(String question , int maxmarks , ArrayList<Student> students , Instructor Publisher){
         this.maxmarks = maxmarks;

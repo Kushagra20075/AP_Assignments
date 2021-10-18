@@ -2,10 +2,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Slide implements Material{
-    String title;
-    ArrayList<String> content;
-    Date publish;
-    Instructor publisher;
+    private String title;
+    private ArrayList<String> content;
+    private Date publish;
+    private Instructor publisher;
 
     Slide(String title , ArrayList<String>content, Date publish , Instructor publisher){
         this.title = title;

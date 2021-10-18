@@ -1,8 +1,9 @@
 public class Submission {
-    String solution;
-    int marks;
-    boolean isopen;
-    Instructor grader;
+    private String solution;
+    private int marks;
+    private boolean isopen;
+    private Instructor grader;
+
     Submission(String solution){
         this.solution = solution;
         this.marks = -1;

@@ -2,11 +2,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 public class Assignment implements Assessment{
-    String problem;
-    Instructor Publisher;
-    HashMap<Student , Submission> submissions;
-    int maxmarks;
-    boolean isclosed;
+    private String problem;
+    private Instructor Publisher;
+    private HashMap<Student , Submission> submissions;
+    private int maxmarks;
+    private boolean isclosed;
+
     Assignment(String problem , Instructor Publisher , int maxmarks , ArrayList<Student> students) {
         this.problem = problem;
         this.Publisher = Publisher;

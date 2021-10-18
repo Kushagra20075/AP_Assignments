@@ -1,11 +1,11 @@
 import java.util.*;
 
 public class Backpack {
-    private ArrayList<Instructor> instructor;
-    private ArrayList<Student> student;
-    private ArrayList<Comment> comment;
-    private ArrayList<Material> material;
-    private ArrayList<Assessment> assessments;
+    private final ArrayList<Instructor> instructor;
+    private final ArrayList<Student> student;
+    private final ArrayList<Comment> comment;
+    private final ArrayList<Material> material;
+    private final ArrayList<Assessment> assessments;
     private Logger User;
     private Instructor IUser;
     private Student SUser;

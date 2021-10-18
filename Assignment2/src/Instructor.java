@@ -3,6 +3,7 @@ import java.util.ArrayList;
 public class Instructor implements Logger {
 
     private String name;
+
     Instructor(String name){
         this.name=name;
     }
