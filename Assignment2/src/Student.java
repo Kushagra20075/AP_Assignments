@@ -13,20 +13,24 @@ public class Student implements Logger {
 
     public void viewgrade(ArrayList<Assessment> assessments) {
         System.out.println("Graded Submissions");
-        System.out.println("---------------------------");
         for(Assessment ass : assessments){
 
             if(ass.is_graded(this)){
                 ass.printer(this);
+                System.out.println();
             }
         }
-        System.out.println("UnGraded Submissions");
         System.out.println("---------------------------");
+        System.out.println();
+        System.out.println("UnGraded Submissions");
         for(Assessment ass : assessments){
             if(!ass.is_graded(this)&&ass.is_submitted(this)){
                 ass.printer_ungraded(this);
+                System.out.println();
             }
         }
+        System.out.println("---------------------------");
+        System.out.println();
     }
     public void submit(Assessment ass, Submission sub , Student User) {
         if(ass.check_Submission(sub)){

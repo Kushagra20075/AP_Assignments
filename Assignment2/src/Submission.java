@@ -18,9 +18,6 @@ public class Submission {
     }
     void close(){
         this.isopen = false;
-        if(this.marks==-1){
-            this.marks = 0;
-        }
     }
     void grade(int marks , Instructor grader){
         this.marks = marks;

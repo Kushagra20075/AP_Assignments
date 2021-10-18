@@ -42,6 +42,7 @@ public class Assignment implements Assessment{
     public void close() {
         for(Map.Entry<Student , Submission> map : submissions.entrySet()){
             if(map.getValue() !=null) {
+                this.isclosed = true;
                 map.getValue().close();
             }
         }
