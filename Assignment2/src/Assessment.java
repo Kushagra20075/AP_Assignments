@@ -12,4 +12,6 @@ public interface Assessment {
     void print_question();
     void print_submission(Student student);
 
+    void printer_ungraded(Student student);
+
 }

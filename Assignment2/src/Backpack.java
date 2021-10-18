@@ -54,14 +54,16 @@ public class Backpack {
     void view_Assessments(){
         for(int i=0;i<assessments.size();i++){
             Assessment ass = assessments.get(i);
-            ass.view_Assessment(i);
+            if(!ass.is_closed())
+                ass.view_Assessment(i);
+                System.out.println("-------------------------------------------");
         }
     }
     public boolean ispending(){
         boolean flag=false;
         if(SUser!=null){
             for (Assessment ass : assessments) {
-                if (!ass.is_submitted(SUser)) {
+                if (!ass.is_closed()&&!ass.is_submitted(SUser)) {
                     flag = true;
                 }
             }
@@ -98,7 +100,7 @@ public class Backpack {
     void Login(Logger User){
         this.User = User;
         if(whoAmI()==0){
-            SUser = (Student)User;
+            SUser = (Student) User;
 
         }
         else{
@@ -107,7 +109,7 @@ public class Backpack {
     }
 
     void Hello(){
-        System.out.println("Hello " + User.getName());
+        System.out.println("Welcome " + User.getName());
     }
     int whoAmI(){
         //0 for student
@@ -119,15 +121,13 @@ public class Backpack {
 
     void Grade(int marks , Assessment ass , Student stud){
         if(IUser!=null){
-            if(IUser ==(ass.get_Publisher())){
-                IUser.grade(ass,marks,stud);
-            }
+            IUser.grade(ass,marks,stud);
         }
     }
 
-    void submit_Assessment(Assessment ass,Submission sub){
+    void submit_Assessment(Assessment ass,Submission sub, Student User){
         if(SUser!=null){
-            SUser.submit(ass,sub);
+            SUser.submit(ass,sub,SUser);
         }
     }
 
@@ -156,16 +156,16 @@ public class Backpack {
         Reader cin = new Reader();
         //Hardcoding the add part
 
-        Instructor ins = new Instructor("I0");
-        portal.addInstructor(ins);
-        ins = new Instructor("I1");
-        portal.addInstructor(ins);
-        Student stud = new Student("S0");
-        portal.addStudent(stud);
-        stud = new Student("S1");
-        portal.addStudent(stud);
-        stud = new Student("S2");
-        portal.addStudent(stud);
+        Instructor ins1 = new Instructor("I0");
+        portal.addInstructor(ins1);
+        ins1 = new Instructor("I1");
+        portal.addInstructor(ins1);
+        Student stud1 = new Student("S0");
+        portal.addStudent(stud1);
+        stud1 = new Student("S1");
+        portal.addStudent(stud1);
+        stud1 = new Student("S2");
+        portal.addStudent(stud1);
         int cont=1;
         while(cont==1){
             System.out.println("Welcome to backpack");
@@ -175,12 +175,13 @@ public class Backpack {
             System.out.println("3. Exit");
             ch = cin.nextInt();
             if(ch==1) {
+
                 //Instructor Menu
                 portal.printinstructors();
                 int index = cin.nextInt();
                 Instructor ilog = portal.getInstructor(index);
-
                 portal.Login(ilog);
+
                 //1. Add class material ----OBj to be made in main function
                 //2. Add assessments -----Obj to be made in main function
                 //3. View lecture materials -----------------
@@ -193,12 +194,24 @@ public class Backpack {
                 int cont2 = 1;
                 while (cont2 == 1) {
                     int ch3;
-                    //Menu Drive will be here :)
+                    portal.Hello();
+                    System.out.println("""
+                            INSTRUCTOR MENU
+                            1. Add class material
+                            2. Add assessments
+                            3. View lecture materials
+                            4. View assessments
+                            5. Grade assessments
+                            6. Close assessment
+                            7. View comments
+                            8. Add comments
+                            9. Logout""");
                     System.out.println("Menu drive");
                     ch3 = cin.nextInt();
                     if (ch3 == 1) {
                         int ch4;
-                        System.out.println("Slide \n Video");
+                        System.out.println("1.Add Lecture Slide \n" +
+                                "2.Add Lecture Video");
                         //Video
                         ch4 = cin.nextInt();
                         if (ch4 == 1) {
@@ -233,7 +246,7 @@ public class Backpack {
                     }
                     else if(ch3==2){
                         int ch4;
-                        System.out.println("Assignment \nQuiz");
+                        System.out.println("1. Add Assignment \n2. Add Quiz");
                         //Assignment
                         //Quiz
                         ch4 = cin.nextInt();
@@ -242,7 +255,7 @@ public class Backpack {
                             int maxmarks;
                             System.out.print("Enter Problem Statement : ");
                             problem = cin.nextLine();
-                            System.out.println("Enter max marks : ");
+                            System.out.print("Enter max marks : ");
                             maxmarks = cin.nextInt();
                             Assignment ass = new Assignment(problem,ilog,maxmarks,portal.getStudents());
                             portal.add_assessment(ass);
@@ -253,13 +266,11 @@ public class Backpack {
                             int maxmarks;
                             System.out.print("Enter Quiz Problem : ");
                             problem = cin.nextLine();
-                            System.out.println("Enter max marks : ");
-                            maxmarks = cin.nextInt();
-                            Quiz quiz = new Quiz(problem,maxmarks,portal.getStudents(),ilog);
+                            Quiz quiz = new Quiz(problem,1,portal.getStudents(),ilog);
                             portal.add_assessment(quiz);
                         }
                         else {
-                            //shi choice daalo na TT_TT
+                            System.out.println("Wrong choice");
                         }
                     }
 
@@ -267,18 +278,18 @@ public class Backpack {
                     else if(ch3==4){ portal.view_Assessments();}
                     else if(ch3==5){
                         portal.view_Assessments();
-                        System.out.println("Enter the ID of assessment to view submissions : ");
+                        System.out.print("Enter the ID of assessment to view submissions : ");
                         int in = cin.nextInt();
                         Assessment ass = portal.getassessment(in);
                         System.out.println("Choose ID from these ungraded submissions");
                         portal.printungradedstudents(ass);
                         in = cin.nextInt();
-                        Student s = portal.getStudent(in);
+                        Student student = portal.getStudent(in);
                         System.out.println("Submission");
-                        ass.print_submission(stud);
+                        ass.print_submission(student);
                         System.out.print("Marks Scored : ");
                         int marks = cin.nextInt();
-                        portal.Grade(marks,ass,stud);
+                        portal.Grade(marks,ass,student);
                     }
                     else if(ch3==6){
                         portal.printopenassessments();
@@ -306,6 +317,7 @@ public class Backpack {
                 }
             }
             else if(ch==2){
+
                 //Student Menu
                 //1. Add class material ----OBj to be made in main function
                 //2. Add assessments -----Obj to be made in main function
@@ -324,7 +336,16 @@ public class Backpack {
                 int cont2 = 1;
                 while(cont2==1){
                     int ch3;
-                    //Menu Drive will be here :)
+                    portal.Hello();
+                    System.out.println("""
+                            STUDENT MENU
+                            1. View lecture materials
+                            2. View assessments
+                            3. Submit assessment
+                            4. View grades
+                            5. View comments
+                            6. Add comments
+                            7. Logout""");
                     System.out.println("Menu drive");
                     ch3 = cin.nextInt();
                     if(ch3==1){ portal.view_lectures(); }
@@ -339,7 +360,7 @@ public class Backpack {
                             ass.print_question();
                             String ans = cin.nextLine();
                             Submission sub = new Submission(ans);
-                            portal.submit_Assessment(ass,sub);
+                            portal.submit_Assessment(ass,sub,ilog);
                         }
                         else{
                             System.out.println("No Pending Assessments");
@@ -399,7 +420,7 @@ public class Backpack {
 
     private void printungradedstudents(Assessment ass) {
         for(int i=0;i< student.size();i++){
-            if(!ass.is_graded(student.get(i)))
+            if(!ass.is_graded(student.get(i))&& ass.is_submitted(student.get(i)))
                 System.out.println( i + " - " + student.get(i).getName());
         }
     }

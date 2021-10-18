@@ -55,12 +55,18 @@ public class Assignment implements Assessment{
     public boolean check_Submission(Submission answer) {
         int size = answer.getSolution().length();
         String ans = answer.getSolution();
-        return size >= 5 && ans.endsWith(".zip");
+        if(size >= 5 && ans.endsWith(".zip")){
+            return true;
+        }
+        //Hatana h end m
+        System.out.println("Wrong format");
+        return false;
     }
     @Override
     public boolean is_graded(Student stud) {
         if(submissions.containsKey(stud)){
             Submission sub = submissions.get(stud);
+            if(sub==null){ return false ;}
             return sub.getMarks() != -1;
         }
         return false;
@@ -73,6 +79,7 @@ public class Assignment implements Assessment{
         }
         return false;
     }
+
     @Override
     public void printer(Student student) {
         if (submissions.containsKey(student)) {
@@ -86,15 +93,23 @@ public class Assignment implements Assessment{
     }
 
     @Override
-    public void print_submission(Student student) {
+    public void printer_ungraded(Student student) {
         if (submissions.containsKey(student)) {
+            Submission sub = submissions.get(student);
+            if(sub!=null){
+                System.out.println("Submission : " + sub.getSolution());
+            }
+        }
+    }
+
+    @Override
+    public void print_submission(Student student) {
             Submission sub = submissions.get(student);
             if(sub!=null){
                 System.out.println("Submission : " + sub.getSolution());
                 System.out.println("----------------------------------");
                 System.out.println("Max Marks : " + this.maxmarks );
             }
-        }
     }
     @Override
     public boolean is_closed() {
@@ -103,9 +118,7 @@ public class Assignment implements Assessment{
 
     @Override
     public void submit(Student student, Submission sub) {
-        if(!submissions.containsKey(student)){
             submissions.put(student,sub);
-        }
     }
     @Override
     public void print_question() {

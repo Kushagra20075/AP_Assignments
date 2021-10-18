@@ -107,11 +107,21 @@ public class Quiz implements Assessment{
             }
         }
     }
+
+    @Override
+    public void printer_ungraded(Student student) {
+        if (submissions.containsKey(student)) {
+            Submission sub = submissions.get(student);
+            if(sub!=null){
+                System.out.println("Question : " + this.question);
+                System.out.println("Submission : " + sub.getSolution());
+            }
+        }
+    }
+
     @Override
     public void submit(Student student, Submission sub) {
-        if(!submissions.containsKey(student)){
             submissions.put(student,sub);
-        }
     }
     @Override
     public void print_question() {

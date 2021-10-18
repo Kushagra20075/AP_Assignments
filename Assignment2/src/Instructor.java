@@ -24,6 +24,7 @@ public class Instructor implements Logger {
     public void view_lectures(ArrayList<Material> material) {
         for (Material mat : material) {
             mat.view();
+            System.out.println("-------------------------------------------");
         }
     }
     @Override
