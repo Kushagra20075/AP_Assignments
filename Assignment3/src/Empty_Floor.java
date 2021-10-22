@@ -6,8 +6,7 @@ public class Empty_Floor extends Floor{
     }
     @Override
     public void jump() {
-        int floor = this.getFloornum();
-        this.setjump(-1);
+        this.jumptofloor = -1;
     }
     @Override
     public void pointchanger() {

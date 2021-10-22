@@ -2,7 +2,7 @@ import java.util.Random;
 
 public class Dice {
     private int face;
-    Random rn;
+    private Random rn;
     Dice(){
         face = 0;
         rn = new Random();

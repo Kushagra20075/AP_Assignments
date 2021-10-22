@@ -1,5 +1,4 @@
-public class Elevator extends Floor {
-
+public class Elevator extends Ladder_Floors {
     Elevator(int floornum){
         super(floornum , "Elevator Floor");
         jump();

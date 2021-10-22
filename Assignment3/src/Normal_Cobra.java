@@ -1,4 +1,4 @@
-public class Normal_Cobra extends Floor{
+public class Normal_Cobra extends Cobra_Floors{
     Normal_Cobra(int floornum){
         super(floornum , "Cobra Floor");
         jump();

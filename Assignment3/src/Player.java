@@ -1,8 +1,8 @@
 public class Player {
-    String Name;
-    int points;
-    Floor currfloor;
-    Dice dice;
+    private final String Name;
+    private int points;
+    private Floor currfloor;
+    private final Dice dice;
     Player(String Name){
         this.Name = Name;
         this.points = 0;
@@ -16,14 +16,14 @@ public class Player {
 
     int getjumpnum(){
         if(currfloor==null){
-            return 0;
+            return -1;
         }
         return currfloor.getJumptofloor();
     }
 
     int getfloornum(){
         if(currfloor==null){
-            return 0;
+            return -1;
         }
         return currfloor.getFloornum();
     }

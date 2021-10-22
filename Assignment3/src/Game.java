@@ -1,16 +1,16 @@
-import java.lang.reflect.Array;
+import java.util.Scanner;
 
 public class Game {
-    Player player;
-    Floor[] floors ;
-    int dicenum;
+    private final Player player;
+    private final Floor[] floors;
+    private int dicenum;
 
     Game(String name){
         System.out.println("The game setup is ready");
         player = new Player(name);
         //Hardcoding the Constructor itself
         floors = new Floor[14];
-        floors[0] = null;
+        floors[0] = new Empty_Floor(0);
         floors[1] = new Empty_Floor(1);
         //elevator
         floors[2] = new Elevator(2);
@@ -36,7 +36,7 @@ public class Game {
         System.out.println("Dice gave " + this.dicenum);
     }
     int jump(){
-        if(player.getfloornum()==0&&dicenum==2){
+        if(player.getfloornum()==-1&&dicenum==2){
             System.out.println("Game cannot start until you get 1");
             return -1;
         }
@@ -72,8 +72,8 @@ public class Game {
         System.out.println("Total Points " + player.getPoints());
     }
 
-    public static void main(String[] args) throws Exception{
-        Reader reader = new Reader();
+    public static void main(String[] args){
+        Scanner reader = new Scanner(System.in);
         String name;
         System.out.println("Enter your name and press Enter");
         name = reader.nextLine();
@@ -89,7 +89,5 @@ public class Game {
             }
         }
         System.out.println("---------------------------------------");
-
-
     }
 }

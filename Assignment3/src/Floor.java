@@ -1,8 +1,8 @@
 public abstract class Floor {
-    int floornum;
-    int points;
-    int jumptofloor;
-    String name;
+    protected int floornum;
+    protected int points;
+    protected int jumptofloor;
+    protected String name;
     Floor(int floornum , String Name){
         this.floornum = floornum;
         this.points = 0;
@@ -15,10 +15,6 @@ public abstract class Floor {
     }
     public int getFloornum(){
         return this.floornum;
-    }
-
-    public void setFloornum(int floornum){
-        this.floornum = floornum;
     }
 
     public void setjump(int jumpno){
