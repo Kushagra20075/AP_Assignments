@@ -1,12 +1,12 @@
-public class King_Cobra extends Cobra_Floor {
+public class King_Cobra extends Floor {
     King_Cobra(int floornum){
-        super(floornum);
+        super(floornum , "King Cobra Floor");
         jump();
         pointchanger();
     }
     @Override
     public void jump() {
-        this.setFloornum(3);
+        this.setjump(3);
     }
     @Override
     public void pointchanger() {
