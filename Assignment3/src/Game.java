@@ -4,10 +4,11 @@ public class Game {
     private final Player player;
     private final Floor[] floors;
     private int dicenum;
+    private int points;
 
     Game(String name){
-        System.out.println("The game setup is ready");
         player = new Player(name);
+        this.points=0;
         //Hardcoding the Constructor itself
         floors = new Floor[14];
         floors[0] = new Empty_Floor(0);
@@ -29,6 +30,7 @@ public class Game {
         floors[12] = new Empty_Floor(12);
         floors[13] = new Empty_Floor(13);
         dicenum = 0;
+        System.out.println("The game setup is ready");
     }
 
     void roll(){
@@ -49,10 +51,11 @@ public class Game {
         System.out.println("Player position Floor - " + currfloor.getFloornum());
         //print message
         System.out.println(player.getName() + " has reached an " + currfloor.getName());
-        pointsprinter(currfloor, player);
+        pointsprinter(currfloor);
         player.setCurrfloor(currfloor);
         System.out.println();
         if(player.getfloornum()+dicenum == 13){
+            player.addpoints(this.points);
             System.out.println("Game Over");
             System.out.println(player.getName() + " accumulated " + player.getPoints() + " Points" );
             return 1;
@@ -67,9 +70,9 @@ public class Game {
         return 0;
     }
 
-    private void pointsprinter(Floor currfloor, Player player) {
-        player.addpoints(currfloor.getPoints());
-        System.out.println("Total Points " + player.getPoints());
+    private void pointsprinter(Floor currfloor) {
+        this.points = this.points + currfloor.getPoints();
+        System.out.println("Total Points " + this.points);
     }
 
     public static void main(String[] args){
