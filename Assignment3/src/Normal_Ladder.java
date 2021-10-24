@@ -1,4 +1,4 @@
-public class Normal_Ladder extends Ladder_Floors{
+public final class Normal_Ladder extends Ladder_Floors{
     Normal_Ladder(int floornum){
         super(floornum, "Ladder Floor");
         jump();

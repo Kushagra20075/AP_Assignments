@@ -1,13 +1,23 @@
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Game {
-    private final Player player;
+public final class Game {
+    private final ArrayList<Player> players;
+    private Player player;
     private final Floor[] floors;
     private int dicenum;
     private int points;
 
-    Game(String name){
-        player = new Player(name);
+    Game(){
+        players = new ArrayList<>();
+        this.player = null;
+        this.dicenum=0;
         this.points=0;
         //Hardcoding the Constructor itself
         floors = new Floor[14];
@@ -29,8 +39,36 @@ public class Game {
         floors[11] = new King_Cobra(11);
         floors[12] = new Empty_Floor(12);
         floors[13] = new Empty_Floor(13);
+    }
+
+    void newGame(String name){
+        player = new Player(name);
+        players.add(player);
+        this.points=0;
         dicenum = 0;
         System.out.println("The game setup is ready");
+    }
+
+    boolean ishighscore(){
+        Player max = this.player;
+        for(int i=0;i<players.size();i++){
+            if(max.getPoints()<=players.get(i).getPoints()){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    void highscore(){
+        Player max = null;
+        for(int i=0;i<players.size();i++){
+            if(max==null || max.getPoints()<players.get(i).getPoints()){
+                max = players.get(i);
+            }
+        }
+        if(max!=null){
+            System.out.println("Highscore \nPlayer : " + max.getName() + "\nScore :" + max.getPoints());
+        }
     }
 
     void roll(){
@@ -58,6 +96,15 @@ public class Game {
             player.addpoints(this.points);
             System.out.println("Game Over");
             System.out.println(player.getName() + " accumulated " + player.getPoints() + " Points" );
+            if(ishighscore()){
+                System.out.println("Congrats you have the set the new highscore");
+                System.out.println();
+            }
+            else{
+                System.out.println("Don't be disheartened you can try again");
+                System.out.println();
+            }
+
             return 1;
         }
         if(currfloor.getJumptofloor()==-1){
@@ -77,18 +124,36 @@ public class Game {
 
     public static void main(String[] args){
         Scanner reader = new Scanner(System.in);
-        String name;
-        System.out.println("Enter your name and press Enter");
-        name = reader.nextLine();
-        Game gm = new Game(name);
+        Scanner reader2 = new Scanner(System.in);
+        Game gm = new Game();
+
+
         boolean cont = true;
+        boolean cont2 = true;
         while(cont){
-            System.out.print("Hit Enter to roll the dice");
-            reader.nextLine();
-            gm.roll();
-            int x = gm.jump();
-            if(x==1){
-                cont=false;
+            String name;
+            System.out.println("Enter your name and press Enter");
+            name = reader2.nextLine();
+            gm.newGame(name);
+            cont2 = true;
+            while(cont2){
+                System.out.print("Hit Enter to roll the dice");
+                reader.nextLine();
+                gm.roll();
+                int x = gm.jump();
+                if(x==1){
+                    cont2 = false;
+                    gm.highscore();
+                    System.out.println("---------------------------------------");
+                    System.out.println();
+                    int ch =0;
+                    System.out.println("1. Start new Game ");
+                    System.out.println("Press any other key to exit");
+                    ch = reader.nextInt();
+                    if(ch!=1){
+                        cont = false;
+                    }
+                }
             }
         }
         System.out.println("---------------------------------------");

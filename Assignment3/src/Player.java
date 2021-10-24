@@ -1,4 +1,4 @@
-public class Player {
+public final class Player {
     private final String Name;
     private int points;
     private Floor currfloor;

@@ -1,4 +1,4 @@
-public class Empty_Floor extends Floor{
+public final class Empty_Floor extends Floor{
     Empty_Floor(int floornum){
         super(floornum , "Empty Floor");
         jump();
