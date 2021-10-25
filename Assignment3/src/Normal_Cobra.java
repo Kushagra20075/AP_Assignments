@@ -1,4 +1,4 @@
-public final class Normal_Cobra extends Cobra_Floors{
+public final class Normal_Cobra extends Snake_Floor{
     Normal_Cobra(int floornum){
         super(floornum , "Cobra Floor");
         jump();
@@ -11,5 +11,21 @@ public final class Normal_Cobra extends Cobra_Floors{
     @Override
     public void pointchanger() {
         this.setPoints(-2);
+    }
+    @Override
+    public void setPoints(int points) {
+        this.points = points;
+    }
+    @Override
+    public int getPoints() {
+        return points;
+    }
+    @Override
+    public int getJumptofloor() {
+        return this.jumptofloor;
+    }
+    @Override
+    public void setjump(int jumpno){
+        this.jumptofloor = jumpno;
     }
 }

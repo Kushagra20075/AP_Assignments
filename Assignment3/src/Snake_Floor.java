@@ -1,7 +1,5 @@
-public abstract class Ladder_Floors extends Floor{
-    Ladder_Floors(int floornum, String Name) {
-        super(floornum, Name);
-    }
+public abstract class Snake_Floor extends Floor {
+    Snake_Floor(int floornum, String Name) { super(floornum, Name); }
     @Override
     public abstract void jump();
     @Override
@@ -19,5 +17,7 @@ public abstract class Ladder_Floors extends Floor{
         return this.name;
     }
     @Override
-    public int getFloornum(){return this.floornum;}
+    public int getFloornum(){
+        return this.floornum;
+    }
 }

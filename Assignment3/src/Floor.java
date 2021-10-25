@@ -9,30 +9,12 @@ public abstract class Floor {
         this.jumptofloor = 0;
         this.name = Name;
     }
-
-    public String getName(){
-        return this.name;
-    }
-    public int getFloornum(){
-        return this.floornum;
-    }
-
-    public void setjump(int jumpno){
-        this.jumptofloor = jumpno;
-    }
-
-    public int getJumptofloor(){
-        return this.jumptofloor;
-    }
-
-    public int getPoints() {
-        return points;
-    }
-
-    public void setPoints(int points) {
-        this.points = points;
-    }
-
+    public abstract String getName();
+    public abstract int getFloornum();
+    public abstract void setjump(int jumpno);
+    public abstract int getJumptofloor();
+    public abstract int getPoints();
+    public abstract void setPoints(int points);
     public abstract void jump();
     public abstract void pointchanger();
 }

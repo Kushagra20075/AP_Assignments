@@ -12,4 +12,20 @@ public final class Normal_Ladder extends Ladder_Floors{
     public void pointchanger() {
         this.setPoints(2);
     }
+    @Override
+    public void setPoints(int points) {
+        this.points = points;
+    }
+    @Override
+    public int getPoints() {
+        return points;
+    }
+    @Override
+    public int getJumptofloor() {
+        return this.jumptofloor;
+    }
+    @Override
+    public void setjump(int jumpno){
+        this.jumptofloor = jumpno;
+    }
 }

@@ -1,9 +1,3 @@
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -52,7 +46,7 @@ public final class Game {
     boolean ishighscore(){
         Player max = this.player;
         for(int i=0;i<players.size();i++){
-            if(max.getPoints()<=players.get(i).getPoints()){
+            if(max.getPoints()<=players.get(i).getPoints()&&players.get(i)!=max){
                 return false;
             }
         }
@@ -146,7 +140,7 @@ public final class Game {
                     gm.highscore();
                     System.out.println("---------------------------------------");
                     System.out.println();
-                    int ch =0;
+                    int ch = 0;
                     System.out.println("1. Start new Game ");
                     System.out.println("Press any other key to exit");
                     ch = reader.nextInt();
