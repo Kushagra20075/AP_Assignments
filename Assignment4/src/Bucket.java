@@ -18,10 +18,10 @@ public class Bucket {
             System.out.println("Soft Toys won by you are:");
             for(int i=0;i<toys.size()-1;i++){
                 Soft_Toy a = toys.get(i);
-                System.out.println(a + ",");
+                System.out.print(a + ",");
             }
             Soft_Toy a = toys.get(toys.size()-1);
-            System.out.println(a);
+            System.out.print(a);
         }
     }
 }

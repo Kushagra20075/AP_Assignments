@@ -1,2 +1,5 @@
-package PACKAGE_NAME;public class DivideByZeroException {
+public class DivideByZeroException extends Exception{
+    DivideByZeroException(){
+        super();
+    }
 }
