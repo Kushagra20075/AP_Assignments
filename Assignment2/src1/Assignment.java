@@ -18,7 +18,6 @@ public class Assignment implements Assessment{
         }
         this.isclosed = false;
     }
-
     @Override
     public int grade(Student stud, int marks , Instructor prof) {
         if(submissions.containsKey(stud)){

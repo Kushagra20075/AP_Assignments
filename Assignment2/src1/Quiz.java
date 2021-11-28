@@ -1,22 +1,24 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-public class Assignment implements Assessment{
-    private String problem;
-    private Instructor Publisher;
-    private HashMap<Student , Submission> submissions;
+
+public class Quiz implements Assessment{
+
+    private String question;
     private int maxmarks;
+    private HashMap<Student , Submission> submissions;
+    private Instructor Publisher;
     private boolean isclosed;
 
-    Assignment(String problem , Instructor Publisher , int maxmarks , ArrayList<Student> students) {
-        this.problem = problem;
-        this.Publisher = Publisher;
+    Quiz(String question , int maxmarks , ArrayList<Student> students , Instructor Publisher){
         this.maxmarks = maxmarks;
+        this.question = question;
         submissions = new HashMap<>();
+        this.Publisher = Publisher;
         for(Student stud : students){
             submissions.put(stud,null);
         }
-        this.isclosed = false;
+        isclosed = false;
     }
 
     @Override
@@ -35,42 +37,41 @@ public class Assignment implements Assessment{
         System.out.println("Student does not exist");
         return -1;
     }
+
     @Override
     public Instructor get_Publisher() {
         return Publisher;
     }
+
     @Override
     public void close() {
         for(Map.Entry<Student , Submission> map : submissions.entrySet()){
-            if(map.getValue() !=null) {
-                this.isclosed = true;
+            if(map.getValue() !=null){
+
                 map.getValue().close();
             }
         }
         this.isclosed = true;
     }
+
+    @Override
+    public boolean is_closed() {
+        return this.isclosed;
+    }
     @Override
     public void view_Assessment(int index) {
-        System.out.println("ID :" + index + " Assignment: " + problem + " Max Marks: " + maxmarks);
+        System.out.println("ID : " + index + " Question: " + question);
     }
     //Complete this
     @Override
     public boolean check_Submission(Submission answer) {
-        int size = answer.getSolution().length();
-        String ans = answer.getSolution();
-        if(size >= 5 && ans.endsWith(".zip")){
-            return true;
-        }
-        //Hatana h end m
-        System.out.println("Wrong format");
-        return false;
+        return true;
     }
     @Override
     public boolean is_graded(Student stud) {
         if(submissions.containsKey(stud)){
             Submission sub = submissions.get(stud);
-            if(sub==null){ return false ;}
-            return sub.getMarks() != -1;
+            return sub != null && sub.getMarks() != -1;
         }
         return false;
     }
@@ -82,12 +83,24 @@ public class Assignment implements Assessment{
         }
         return false;
     }
+    @Override
+    public void print_submission(Student student) {
+        if (submissions.containsKey(student)) {
+            Submission sub = submissions.get(student);
+            if(sub!=null){
+                System.out.println("Submission : " + sub.getSolution());
+                System.out.println("----------------------------------");
+                System.out.println("Max Marks : " + this.maxmarks );
+            }
+        }
+    }
 
     @Override
     public void printer(Student student) {
         if (submissions.containsKey(student)) {
             Submission sub = submissions.get(student);
             if(sub!=null){
+                System.out.println("Question : " + this.question);
                 System.out.println("Submission : " + sub.getSolution());
                 System.out.println("Marks scored : " + sub.getMarks() );
                 System.out.println("Graded by : " + sub.getgrader());
@@ -100,23 +113,10 @@ public class Assignment implements Assessment{
         if (submissions.containsKey(student)) {
             Submission sub = submissions.get(student);
             if(sub!=null){
+                System.out.println("Question : " + this.question);
                 System.out.println("Submission : " + sub.getSolution());
             }
         }
-    }
-
-    @Override
-    public void print_submission(Student student) {
-            Submission sub = submissions.get(student);
-            if(sub!=null){
-                System.out.println("Submission : " + sub.getSolution());
-                System.out.println("----------------------------------");
-                System.out.println("Max Marks : " + this.maxmarks );
-            }
-    }
-    @Override
-    public boolean is_closed() {
-        return this.isclosed;
     }
 
     @Override
@@ -125,6 +125,6 @@ public class Assignment implements Assessment{
     }
     @Override
     public void print_question() {
-        System.out.print("Enter the filename for this assignment : ");
+        System.out.print(this.question + " ");
     }
 }
