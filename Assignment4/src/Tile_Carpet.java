@@ -4,45 +4,45 @@ public class Tile_Carpet {
     private ArrayList<Tile> tiles;
     Tile_Carpet(){
         tiles = new ArrayList<Tile>();
-        Tile t1 = new Tile("Toy1",false);
+        Tile t1 = new Tile("Iron Man",false);
         tiles.add(t1);
-        Tile t2 = new Tile("Toy2",true);
+        Tile t2 = new Tile("Black Widow",true);
         tiles.add(t2);
-        Tile t3 = new Tile("Toy3",false);
+        Tile t3 = new Tile("Hulk",false);
         tiles.add(t3);
-        Tile t4 = new Tile("Toy4",true);
+        Tile t4 = new Tile("Thor",true);
         tiles.add(t4);
-        Tile t5 = new Tile("Toy5",false);
+        Tile t5 = new Tile("Odin",false);
         tiles.add(t5);
-        Tile t6 = new Tile("Toy6",true);
+        Tile t6 = new Tile("Hawkeye",true);
         tiles.add(t6);
-        Tile t7 = new Tile("Toy7",false);
+        Tile t7 = new Tile("Shang Chi",false);
         tiles.add(t7);
-        Tile t8 = new Tile("Toy8",true);
+        Tile t8 = new Tile("Sersi",true);
         tiles.add(t8);
-        Tile t9 = new Tile("Toy9",false);
+        Tile t9 = new Tile("Ikaris",false);
         tiles.add(t9);
-        Tile t10 = new Tile("Toy10",true);
+        Tile t10 = new Tile("Loki",true);
         tiles.add(t10);
-        Tile t11 = new Tile("Toy11",false);
+        Tile t11 = new Tile("Rad Skull",false);
         tiles.add(t11);
-        Tile t12 = new Tile("Toy12",true);
+        Tile t12 = new Tile("Captain America",true);
         tiles.add(t12);
-        Tile t13 = new Tile("Toy13",false);
+        Tile t13 = new Tile("Black Panther",false);
         tiles.add(t13);
-        Tile t14 = new Tile("Toy14",true);
+        Tile t14 = new Tile("Dr. Strange",true);
         tiles.add(t14);
-        Tile t15 = new Tile("Toy15",false);
+        Tile t15 = new Tile("Spiderman",false);
         tiles.add(t15);
-        Tile t16 = new Tile("Toy16",true);
+        Tile t16 = new Tile("Scarlet Witch",true);
         tiles.add(t16);
-        Tile t17 = new Tile("Toy17",false);
+        Tile t17 = new Tile("Captain Marvel",false);
         tiles.add(t17);
-        Tile t18 = new Tile("Toy18",true);
+        Tile t18 = new Tile("Falcon",true);
         tiles.add(t18);
-        Tile t19 = new Tile("Toy19",false);
+        Tile t19 = new Tile("War Machine",false);
         tiles.add(t19);
-        Tile t20 = new Tile("Toy20",true);
+        Tile t20 = new Tile("Ant Man",true);
         tiles.add(t20);
     }
     Boolean iseven(int index) throws WrongIndexException{
@@ -52,11 +52,12 @@ public class Tile_Carpet {
         Tile t = tiles.get(index);
         return t.iseven();
     }
-    Soft_Toy cloner(int index) throws WrongIndexException{
+    void cloner(int index , Player player) throws WrongIndexException{
         if(index<0 || index>=tiles.size()){
             throw new WrongIndexException("Wrong Index of the Soft Toy");
         }
         Tile t = tiles.get(index);
-        return t.cloner();
+        t.cloner(player);
+        return;
     }
 }

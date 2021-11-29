@@ -1,5 +1,5 @@
 public class Player {
-    Bucket bucket;
+    private Bucket bucket;
     Player(){
         bucket = new Bucket();
     }

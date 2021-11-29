@@ -8,8 +8,10 @@ public class Tile {
     Boolean iseven(){
         return this.even;
     }
-    Soft_Toy cloner(){
-        return toy.clone();
+    void cloner(Player player){
+        Soft_Toy cloned = toy.clone();
+        player.addtoy(cloned);
+        System.out.println("You won a " + cloned + " soft toy");
     }
     String name(){
         return toy.getName();
